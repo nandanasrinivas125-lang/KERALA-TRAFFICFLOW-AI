@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Kerala TrafficFlow AI</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <a href="#home" class="nav-brand">
+            🚦 TrafficFlow <span>AI</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#contact">Contact</a>
+            <a href="#predict" class="nav-button">
+                Predict Traffic ↗
+            </a>
+        </div>
+
+</nav>
+
+<div class="page" id="home">
+
+
+
+
+    <!-- LEFT SIDE -->
+
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🚦
+                </div>
+
+                <div>
+
+                    <h2>
+                        Kerala TrafficFlow
+                    </h2>
+
+                    <p>
+                        Smart Traffic Prediction
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-text">
+
+                <span class="badge">
+                    MACHINE LEARNING
+                </span>
+
+                <h1>
+                    Predict traffic.<br>
+                    Plan smarter.
+                </h1>
+
+                <p>
+                    Estimate average daily traffic
+                    using road characteristics and
+                    machine learning.
+                </p>
+
+            </div>
+
+
+            <div class="hero-stats">
+
+                <div class="stat">
+
+                    <strong>200+</strong>
+
+                    <span>
+                        Road Records
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <strong>6</strong>
+
+                    <span>
+                        ML Models
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <strong>AI</strong>
+
+                    <span>
+                        Prediction
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- RIGHT SIDE -->
+
+    <section class="form-section" id="predict">
+
+
+        <div class="form-container">
+
+
+            <div class="form-header">
+
+                <span class="small-title">
+                    TRAFFIC ESTIMATION
+                </span>
+
+                <h1>
+                    Enter road details
+                </h1>
+
+                <p>
+                    Enter the available information
+                    about the road.
+                </p>
+
+            </div>
+
+
+
+            <form method="POST">
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label>
+                        Location
+                    </label>
+
+                    <select name="location"
+                            required>
+
+                        <option value="">
+                            Select Kerala location
+                        </option>
+
+                        {% for place in kerala_places %}
+
+                        <option value="{{ place }}">
+                            {{ place }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- ROAD TYPE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Road Type
+                    </label>
+
+                    <select name="road_type"
+                            required>
+
+                        <option value="">
+                            Select road type
+                        </option>
+
+                        <option value="National Highway">
+                            National Highway
+                        </option>
+
+                        <option value="State Highway">
+                            State Highway
+                        </option>
+
+                        <option value="Major District Road">
+                            Major District Road
+                        </option>
+
+                        <option value="Other District Road">
+                            Other District Road
+                        </option>
+
+                        <option value="Local Road">
+                            Local Road
+                        </option>
+
+                        <option value="Toll Road">
+                            Toll Road
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- LENGTH + LANES -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Road Length
+                            <span>(km)</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            name="road_length"
+                            step="0.1"
+                            min="0.1"
+                            placeholder="e.g. 4.5"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Number of Lanes
+                        </label>
+
+                        <input
+                            type="number"
+                            name="lanes"
+                            min="1"
+                            max="10"
+                            placeholder="e.g. 4"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- SPEED -->
+
+                <div class="form-group">
+
+                    <label>
+                        Speed Limit
+                        <span>(km/h)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        name="speed_limit"
+                        min="10"
+                        max="150"
+                        placeholder="e.g. 60"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- BUS + BIKE -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Bus Lane
+                        </label>
+
+                        <select name="bus_lane"
+                                required>
+
+                            <option value="0">
+                                No
+                            </option>
+
+                            <option value="1">
+                                Yes
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Bike Lane
+                        </label>
+
+                        <select name="bike_lane"
+                                required>
+
+                            <option value="0">
+                                No
+                            </option>
+
+                            <option value="1">
+                                Yes
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- SURFACE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Road Surface Condition
+                    </label>
+
+                    <select name="surface_condition"
+                            required>
+
+                        <option value="">
+                            Select condition
+                        </option>
+
+                        <option value="Good">
+                            Good
+                        </option>
+
+                        <option value="Average">
+                            Average
+                        </option>
+
+                        <option value="Poor">
+                            Poor
+                        </option>
+
+                        <option value="Very Poor">
+                            Very Poor
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- AUTOMATIC INFORMATION -->
+
+                <div class="info-box">
+
+                    <span>ⓘ</span>
+
+                    <div>
+
+                        <strong>
+                            Automatic information
+                        </strong>
+
+                        <p>
+                            Toll rate, road capacity and
+                            maintenance information are
+                            automatically handled by the
+                            prediction system.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BUTTON -->
+
+                <button type="submit">
+
+                    <span>
+                        Predict Daily Traffic
+                    </span>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- RESULT -->
+
+            {% if prediction is not none %}
+
+            <div class="result-box">
+
+                <div class="result-icon">
+                    🚗
+                </div>
+
+                <div>
+
+                    <p>
+                        Estimated Average Daily Traffic
+                    </p>
+
+                    <h2>
+                        {{ "{:,}".format(prediction) }}
+                    </h2>
+
+                    <span>
+                        vehicles per day
+                    </span>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+            <div class="error-box">
+
+                <strong>
+                    Prediction Error
+                </strong>
+
+                <p>
+                    {{ error }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            <p class="footer-note">
+
+                Powered by Machine Learning •
+                Random Forest Regression
+
+            </p>
+
+
+        </div>
+
+    </section>
+
+
+</div>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="info-section">
+    <h2>About TrafficFlow AI</h2>
+    <p>
+        TrafficFlow AI is a machine-learning project designed
+        to estimate average daily traffic using road characteristics.
+    </p>
+</section>
+
+<!-- FEATURES SECTION -->
+<section id="features" class="info-section">
+    <h2>Features</h2>
+    <ul>
+        <li>Road information input</li>
+        <li>Machine-learning traffic estimation</li>
+        <li>Simple and responsive interface</li>
+    </ul>
+</section>
+
+<!-- HOW IT WORKS SECTION -->
+<section id="how-it-works" class="info-section">
+    <h2>How It Works</h2>
+    <p>
+        Enter the road details, submit the form, and view
+        the estimated average daily traffic.
+    </p>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="info-section">
+    <h2>Contact</h2>
+    <p>
+        Kerala TrafficFlow AI — Academic Machine Learning Project.
+    </p>
+</section>
+
+
+
+</body>
+
+</html>
